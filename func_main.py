@@ -21,24 +21,27 @@ def get_data():
     df_first = pd.DataFrame([])
 
     grouped = df.groupby('사용기관명')
+    group_nm = []
 
     for group_name, group_df in grouped:
         df_first = pd.concat([df_first,group_df])
     df_first.reset_index(drop=True, inplace=True)
+    group_nm.append(group_name)
 
     df_first.to_csv('./output/output_first.csv', index=False)
+    return group_nm
 
 def second_data():
     df = pd.read_csv('./output/output_first.csv')
 
-    df = df.drop(['순번','건축물코드','건축물명','층구분','층코드','층번호','호실코드'], axis=1)
+    df = df.drop(['캠퍼스구분','순번','건축물코드','건축물명','층구분','층코드','층번호','호실코드'], axis=1)
     print(df.columns)
-    print(df.head())
+    return df
 
 
 def main():
     # set_data()
-    # get_data()
+    get_data()
     second_data()
 
 
