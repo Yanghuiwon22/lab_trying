@@ -43,4 +43,36 @@
    ```
    docker compose up
    ```
+
+# 그래프 그리기
+## 가로형 그래프 그리기
+![image](https://github.com/Yanghuiwon22/lab_trying/assets/127187225/e7da0008-ee02-4ea2-b879-3ebc04dfb287)
+1. altair 라이브러리 사용
+   ```
+   pip install altair
+   ```
+2. 그래프를 위한 초기 데이터값 설정
+
+   ```
+       chart = alt.Chart(df).mark_bar().encode(
+        x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
+        y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))  # y 축의 라벨 크기를 조절합니다.
+    ).properties(
+        height=alt.Step(30)  # 그래프의 높이를 조절합니다.
+    )
+   ```
+
+      * mark_bar() : 바 차트를 그리는 함수
+                 ==> 선 그래프를 그리고 싶다면 mark_line()
+     * encode() : 시각적 속성을 매핑하는데 사용 
+                   ==> x축, y축, 레이블 등
+     * properties() :  차트의 속성을 설정하는데 사용
+                   ==> 차트의 크기, 넓이 등
+4. 그래프 그리기
+   ```
+   st.altair_chart(chart, use_container_width=True)
+   ```
+## 그래프 물결선(waveform)추가
+
+
    
