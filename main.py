@@ -11,6 +11,8 @@ select_company = st.sidebar.selectbox(
     func_main.get_data()
 )
 
+st.write(func_main.get_data()[0])
+
 # 메인 페이지
 if select_company == '전체':
     spot = '전북대 농업생명과학대학'
@@ -26,12 +28,23 @@ tmp_df = df[df['사용기관명'] == select_company]
 ## 상세페이지 - 전체
 if select_company == '전체':
 
-    chart = alt.Chart(df).mark_bar().encode(
+    x = func_main.get_data()[1:]
+    y = func_main.group_area()
+    df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
+
+    chart = alt.Chart(df_group).mark_bar().encode(
         x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
-        y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold', angle=45))  # y 축의 라벨 크기를 조절합니다.
+        y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))  # y 축의 라벨 크기를 조절합니다.
     ).properties(
         height=alt.Step(30)  # 그래프의 높이를 조절합니다.
     )
+
+    # chart = alt.Chart(df).mark_bar().encode(
+    #     x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
+    #     y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))  # y 축의 라벨 크기를 조절합니다.
+    # ).properties(
+    #     height=alt.Step(30)  # 그래프의 높이를 조절합니다.
+    # )
 
     # 물결선 추가
     # waveform_data = pd.DataFrame({
