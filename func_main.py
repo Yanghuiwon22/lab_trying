@@ -61,10 +61,15 @@ def second_data():
     df = df.drop(['캠퍼스구분','순번','건축물코드','건축물명','층구분','층코드','층번호','호실코드'], axis=1)
     return df
 
+def division_area():
+    df = pd.read_csv('./output/output.csv')
+    print(df)
+
+
 
 
 def main():
-    # area_sum()
+    division_area()
     pass
 
 

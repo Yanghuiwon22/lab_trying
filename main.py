@@ -28,6 +28,7 @@ tmp_df = df[df['사용기관명'] == select_company]
 ## 상세페이지 - 전체
 if select_company == '전체':
 
+    # 농업생명과학대 전체 호실 사용 현황
     x = func_main.get_data()[1:]
     y = func_main.group_area()
     df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
@@ -38,28 +39,12 @@ if select_company == '전체':
     ).properties(
         height=alt.Step(30)  # 그래프의 높이를 조절합니다.
     )
-
-    # chart = alt.Chart(df).mark_bar().encode(
-    #     x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
-    #     y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))  # y 축의 라벨 크기를 조절합니다.
-    # ).properties(
-    #     height=alt.Step(30)  # 그래프의 높이를 조절합니다.
-    # )
-
-    # 물결선 추가
-    # waveform_data = pd.DataFrame({
-    #     'x': np.linspace(0, 100, 1000),
-    #     'y': np.sin(np.linspace(0, 10, 1000))
-    # })
-
-    # waveform_chart = alt.Chart(waveform_data).mark_line(color='red').encode(
-    #     x='x',
-    #     y='y'
-    # )
-
-    # combined_chart = chart + waveform_chart
-
     st.altair_chart(chart, use_container_width=True)
+
+    # 학과/사업체 - 호실 사용 현황
+
+
+
 
     st.dataframe(df)
 
