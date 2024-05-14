@@ -63,14 +63,24 @@ def second_data():
 
 def division_area():
     df = pd.read_csv('./output/output.csv')
-    print(df)
 
+    department_list = []
+    bisiness_list = []
 
+    group_nm = get_data()[1:]
+    for i in group_nm:
+        if '학과' in i or '학부' in i or '대학원' in i:
+            department_list.append(i)
 
+        else:
+            bisiness_list.append(i)
+    print(f'학과 => \n{department_list}')
+    print(f'사업체 => \n{bisiness_list}')
+    return department_list, bisiness_list
 
 def main():
     division_area()
-    pass
+    # pass
 
 
 if __name__=='__main__':

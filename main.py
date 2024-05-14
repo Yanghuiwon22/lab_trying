@@ -11,7 +11,6 @@ select_company = st.sidebar.selectbox(
     func_main.get_data()
 )
 
-st.write(func_main.get_data()[0])
 
 # 메인 페이지
 if select_company == '전체':
@@ -42,7 +41,8 @@ if select_company == '전체':
     st.altair_chart(chart, use_container_width=True)
 
     # 학과/사업체 - 호실 사용 현황
-
+    department_list, bisiness_list = func_main.division_area()
+    st.dataframe(department_list)
 
 
 
