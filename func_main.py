@@ -76,7 +76,12 @@ def division_area():
             df_bisiness = pd.concat([df_bisiness, df[df['사용기관명'] == i][['사용기관명','전용면적']]])
 
     df_department.reset_index(drop=True, inplace=True)
-    print(df_department)
+    df_bisiness.reset_index(drop=True, inplace=True)
+
+    df_department.to_csv('./output/output_department.csv', index=False)
+    df_bisiness.to_csv('./output/output_bisiness.csv', index=False)
+
+    return df_department, df_bisiness
 
 def main():
     division_area()

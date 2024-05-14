@@ -42,9 +42,22 @@ if select_company == '전체':
 
     # 학과/사업체 - 호실 사용 현황
     department_list, bisiness_list = func_main.division_area()
-    st.dataframe(department_list)
 
+    department_chart = alt.Chart(department_list).mark_bar().encode(
+        x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
+        y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))
+    ).properties(
+        height=alt.Step(30)
+    )
+    st.altair_chart(department_chart, use_container_width=True)
 
+    bisiness_chart = alt.Chart(bisiness_list).mark_bar().encode(
+        x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
+        y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))
+    ).properties(
+        height=alt.Step(30)
+    )
+    st.altair_chart(bisiness_chart, use_container_width=True)
 
     st.dataframe(df)
 
