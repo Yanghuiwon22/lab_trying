@@ -2,6 +2,7 @@ import os
 import pandas as pd
 
 
+
 def set_data():
     input_dir = './input'
     output_dir = './output'
@@ -36,11 +37,11 @@ def get_data():
     group_nm.insert(0,'전체')
     return group_nm
 
-def group_area():
-    df = pd.read_csv('./output/output.csv')
+def group_area(csv_output):
+    # df = pd.read_csv('./output/output.csv')
     df_first = pd.DataFrame([])
 
-    grouped = df.groupby('사용기관명')
+    grouped = csv_output.groupby('사용기관명')
     group_nm = []
     group_area = []
 
@@ -52,9 +53,9 @@ def group_area():
     df_first.reset_index(drop=True, inplace=True)
 
 
-    df_first.to_csv('./output/output_first.csv', index=False)
+    # df_first.to_csv('./output/output_first.csv', index=False)
     group_nm.insert(0,'전체')
-    return group_area
+    return [group_nm, group_area]
 
 def second_data():
     df = pd.read_csv('./output/output_first.csv')
@@ -78,6 +79,7 @@ def division_area():
     df_department.reset_index(drop=True, inplace=True)
     df_bisiness.reset_index(drop=True, inplace=True)
 
+    print(df_department )
     df_department.to_csv('./output/output_department.csv', index=False)
     df_bisiness.to_csv('./output/output_bisiness.csv', index=False)
 

@@ -5,6 +5,11 @@ import altair as alt
 import pandas as pd
 import numpy as np
 
+# 데이터 전처리
+csv_output = pd.read_csv('./output/output.csv')
+csv_department = pd.read_csv('./output/output_department.csv')
+csv_bisiness = pd.read_csv('./output/output_bisiness.csv')
+
 # 사이드바
 select_company = st.sidebar.selectbox(
     '확인하고 싶은 기관을 선택하세요',
@@ -28,8 +33,8 @@ tmp_df = df[df['사용기관명'] == select_company]
 if select_company == '전체':
 
     # 농업생명과학대 전체 호실 사용 현황
-    x = func_main.get_data()[1:]
-    y = func_main.group_area()
+    x = func_main.group_area(csv_output)[0][1:]
+    y = func_main.group_area(csv_output)[1]
     df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
 
     chart = alt.Chart(df_group).mark_bar().encode(
@@ -42,8 +47,16 @@ if select_company == '전체':
 
     # 학과/사업체 - 호실 사용 현황
     department_list, bisiness_list = func_main.division_area()
+    x_department = func_main.group_area(csv_department)[0][1:]
+    y_department = func_main.group_area(csv_department)[1]
+    df_department = pd.DataFrame({'사용기관명': x, '전용면적': y})
 
-    department_chart = alt.Chart(department_list).mark_bar().encode(
+    x_bisiness = func_main.group_area(csv_bisiness)[0][1:]
+    y_bisiness = func_main.group_area(csv_bisiness)[1]
+    df_bisiness = pd.DataFrame({'사용기관명': x, '전용면적': y})
+
+
+    department_chart = alt.Chart(df_department).mark_bar().encode(
         x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
         y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))
     ).properties(
@@ -51,13 +64,15 @@ if select_company == '전체':
     )
     st.altair_chart(department_chart, use_container_width=True)
 
-    bisiness_chart = alt.Chart(bisiness_list).mark_bar().encode(
+    bisiness_chart = alt.Chart(df_bisiness).mark_bar().encode(
         x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
         y=alt.Y('사용기관명', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))
     ).properties(
         height=alt.Step(30)
     )
     st.altair_chart(bisiness_chart, use_container_width=True)
+
+
 
     st.dataframe(df)
 
