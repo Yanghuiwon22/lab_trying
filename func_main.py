@@ -14,6 +14,7 @@ def set_data():
         raw_data = pd.DataFrame(pd.read_excel(f'{input_dir}/{i}'))
         df = pd.concat([df, raw_data])
         df.reset_index(drop=True, inplace=True)
+        df.sort_index(ascending=False)
 
     df.to_csv(f'{output_dir}/output.csv', index=False)
 
@@ -31,7 +32,7 @@ def get_data():
         group_nm.append(group_name)
         group_area.append(group_df['전용면적'].sum())
     df_first.reset_index(drop=True, inplace=True)
-
+    df_first.sort_index(ascending=False)
 
     df_first.to_csv('./output/output_first.csv', index=False)
     group_nm.insert(0,'전체')
@@ -50,11 +51,12 @@ def group_area(csv_output):
 
         group_nm.append(group_name)
         group_area.append(group_df['전용면적'].sum())
+        # print(df_first)
     df_first.reset_index(drop=True, inplace=True)
-
-
     # df_first.to_csv('./output/output_first.csv', index=False)
     group_nm.insert(0,'전체')
+    print(group_nm)
+    print(group_area)
     return [group_nm, group_area]
 
 def second_data():
@@ -79,9 +81,12 @@ def division_area():
     df_department.reset_index(drop=True, inplace=True)
     df_bisiness.reset_index(drop=True, inplace=True)
 
-    print(df_department )
+    df_department = df_department.sort_values(by='전용면적', ascending=False)
+    # print(df_department)
     df_department.to_csv('./output/output_department.csv', index=False)
-    df_bisiness.to_csv('./output/output_bisiness.csv', index=False)
+    df_business = df_bisiness.sort_values(by='전용면적', ascending=False)
+    # print(df_business)
+    df_business.to_csv('./output/output_bisiness.csv', index=False)
 
     return df_department, df_bisiness
 
