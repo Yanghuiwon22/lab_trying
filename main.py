@@ -46,25 +46,9 @@ tmp_df = df[df['사용기관명'] == select_company]
 if select_company == '전체':
 
     # 농업생명과학대 전체 호실 사용 현황
-    x = func_main.group_area(csv_output)[0][1:]
-    y = func_main.group_area(csv_output)[1]
-    df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
+    total_df = csv_output[['사용기관명', '전용면적', '공간용도구분']]
 
-    # x = csv_output.group_by(['사용기관명'])
-    # y = csv_output['전용면적']
-    # df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
-    # print(df_group)
-
-    chart = alt.Chart(df_group).mark_bar().encode(
-        x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
-        y=alt.Y('사용기관명', sort='-x', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))  # y 축의 라벨 크기를 조절합니다.
-    ).properties(
-        height=alt.Step(30)  # 그래프의 높이를 조절합니다.
-    ).configure_axis(
-        labelFontSize=10
-    )
-    st.altair_chart(chart, use_container_width=True)
-
+    draw_barchart(total_df)
     # 학과/사업체 - 호실 사용 현황
 
     draw_barchart(csv_department)
