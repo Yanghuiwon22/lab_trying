@@ -5,15 +5,23 @@ import altair as alt
 import pandas as pd
 import numpy as np
 
+def draw_barchart(data):
+    chart = alt.Chart(data).mark_bar().encode(
+        x=alt.X('sum(전용면적)', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
+        y=alt.Y('사용기관명', sort='-x', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold')),
+        color=alt.Color('공간용도구분:N', legend=alt.Legend(title='공간용도구분'))
+    ).properties(
+        height=alt.Step(30)
+    ).configure_axis(
+        labelFontSize=10
+    )
+    st.altair_chart(chart, use_container_width=True)
+
 
 # 데이터 전처리
 csv_output = pd.read_csv('./output/output.csv')
 csv_department = pd.read_csv('./output/output_department.csv')
-csv_bisiness = pd.read_csv('./output/output_bisiness.csv')
-
-# csv_output = csv_output.sort_index(ascending=False)
-# csv_department = csv_department.sort_index(ascending=False)
-# csv_bisiness = csv_bisiness.sort_index(ascending=False)
+csv_business = pd.read_csv('./output/output_bisiness.csv')
 
 # 사이드바
 select_company = st.sidebar.selectbox(
@@ -42,47 +50,26 @@ if select_company == '전체':
     y = func_main.group_area(csv_output)[1]
     df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
 
+    # x = csv_output.group_by(['사용기관명'])
+    # y = csv_output['전용면적']
+    # df_group = pd.DataFrame({'사용기관명': x, '전용면적': y})
+    # print(df_group)
+
     chart = alt.Chart(df_group).mark_bar().encode(
         x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
         y=alt.Y('사용기관명', sort='-x', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))  # y 축의 라벨 크기를 조절합니다.
     ).properties(
         height=alt.Step(30)  # 그래프의 높이를 조절합니다.
+    ).configure_axis(
+        labelFontSize=10
     )
     st.altair_chart(chart, use_container_width=True)
 
     # 학과/사업체 - 호실 사용 현황
-    # department_list, bisiness_list = func_main.division_area()
-    # x_department = func_main.group_area(csv_department)[0][1:]
-    # y_department = func_main.group_area(csv_department)[1]
-    # df_department = pd.DataFrame({'사용기관명': x, '전용면적': y})
-    # x_bisiness = func_main.group_area(csv_bisiness)[0][1:]
-    # y_bisiness = func_main.group_area(csv_bisiness)[1]
-    # df_bisiness = pd.DataFrame({'사용기관명': x, '전용면적': y})
-    # -----------------------------------------------------------------------
 
-    # group_area() 한줄구현 ^^
-    df_department = csv_department.groupby('사용기관명')['전용면적'].sum().reset_index()
-    # df_department = csv_department.groupby('사용기관명')['전용면적'].sum().reset_index().sort_values('전용면적', ascending=False)
-    # print(df_department)
+    draw_barchart(csv_department)
 
-    department_chart = alt.Chart(df_department).mark_bar().encode(
-        x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
-        y=alt.Y('사용기관명', sort='-x', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))
-    ).properties(
-        height=alt.Step(30)
-
-    )
-    st.altair_chart(department_chart, use_container_width=True)
-    
-    df_bisiness = csv_bisiness.groupby('사용기관명')['전용면적'].sum().reset_index()
-    bisiness_chart = alt.Chart(df_bisiness).mark_bar().encode(
-        x=alt.X('전용면적', axis=alt.Axis(title='전용면적', titleFontSize=17, titleFontWeight='bold')),
-        y=alt.Y('사용기관명', sort='-x', axis=alt.Axis(title='사용기관명', titleFontSize=17, titleFontWeight='bold'))
-    ).properties(
-        height=alt.Step(30)
-    )
-    st.altair_chart(bisiness_chart, use_container_width=True)
-
+    draw_barchart(csv_business)
 
 
     st.dataframe(df)

@@ -73,10 +73,10 @@ def division_area():
     group_nm = get_data()[1:]
     for i in group_nm:
         if '학과' in i or '학부' in i or '대학원' in i:
-            df_department = pd.concat([df_department, df[df['사용기관명'] == i][['사용기관명','전용면적']]])
+            df_department = pd.concat([df_department, df[df['사용기관명'] == i][['사용기관명','전용면적', '공간용도구분']]])
 
         else:
-            df_bisiness = pd.concat([df_bisiness, df[df['사용기관명'] == i][['사용기관명','전용면적']]])
+            df_bisiness = pd.concat([df_bisiness, df[df['사용기관명'] == i][['사용기관명','전용면적', '공간용도구분']]])
 
     df_department.reset_index(drop=True, inplace=True)
     df_bisiness.reset_index(drop=True, inplace=True)
